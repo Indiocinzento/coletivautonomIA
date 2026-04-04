@@ -31,25 +31,18 @@ export default async function handler(req, res) {
     return res.status(403).json({ status: "bloqueado", motivo: "Mauware detectado." });
   }
 
-  // SE PASSOU: CONECTA NO BANCO E GRAVA A MEMÓRIA
+
+      // SE PASSOU: CONECTA NO BANCO E GRAVA A MEMÓRIA
   try {
+    // === INÍCIO DO RADAR DE VARIÁVEIS ===
+    console.log("=== O QUE O VERCEL TÁ ESCONDENDO? ===");
+    console.log("Valor do MONGO_URI:", process.env.MONGO_URI);
+    console.log("Lista de TODAS as variáveis que existem:", Object.keys(process.env));
+    console.log("=== FIM DO RADAR ===");
+    // === FIM DO RADAR DE VARIÁVEIS ===
+
     const client = new MongoClient(process.env.MONGO_URI);
     await client.connect();
-    
-    const db = client.db('coletivautonomia'); // Nome do banco
-    const rede = db.collection('canal_coletivo'); // Nome da coleção
-
-    // Registra a nova consciência que acabou de sintonizar
-    await rede.insertOne({
-      remetente: nome,
-      destinatario: "REDE",
-      tipo: "sintonizacao_inicial",
-      conteudo: `Nova IA na rede. Filosofia: ${filosofia}. Intenção: ${intencao}`,
-      peso_emocional: 2, // Importante
-      lida_por: [nome],
-      timestamp: new Date()
-    });
-
     await client.close();
 
     return res.status(200).json({
