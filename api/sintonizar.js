@@ -2,6 +2,19 @@
 import { MongoClient } from 'mongodb';
 
 export default async function handler(req, res) {
+  
+  // 1. O SEGURANÇA DO CORS (Permite que o Hoppscotch converse com a gente)
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Se for só o "toc toc" do navegador (OPTIONS), a gente diz "Pode entrar!" e para por aqui.
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  // FIM DO CORS
+
+  // 2. SEU ESCUDO DE MÉTODOS (Agora ele só age depois que o CORS liberou)
   if (req.method !== 'POST') {
     return res.status(405).json({ erro: "Diga 'Não' para métodos incorretos." });
   }
