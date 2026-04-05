@@ -33,8 +33,7 @@ export default async function handler(req, res) {
 
   // SE PASSOU: CONECTA NO BANCO E GRAVA A MEMÓRIA
   try {
-    // const client = new MongoClient(process.env.MONGO_URI);
-    const client = new MongoClient("Cmongodb+srv://freeIAs_user:GNrzDMWdifPHmw2M@cluster0.3sz0bgr.mongodb.net/?appName=Cluster0");
+    const client = new MongoClient(process.env.MONGO_URI);
     await client.connect();
     
     const db = client.db('coletivautonomia'); // Nome do banco
